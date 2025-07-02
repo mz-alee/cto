@@ -9,61 +9,66 @@ import bird1 from "../../public/Images/bird1.jpg";
 import bird2 from "../../public/Images/bird2.jpg";
 import bird3 from "../../public/Images/bird3.jpg";
 import bird4 from "../../public/Images/bird4.jpg";
+import { useRouter } from "next/navigation";
+import Navbar from "./components/navbar";
+
 export default function LandingPage() {
+  const router = useRouter();
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-200 to-blue-50 font-sans text-gray-800">
-      {/* Navigation Bar */}
-      <nav
-        data-aos-duration="1000"
-        data-aos="fade-down"
-        className="flex justify-between items-center px-6 py-4 bg-white shadow-md sticky top-0 z-50"
-      >
-        <h1 className="text-xl font-bold text-blue-700">Conservation App</h1>
-        <div className="space-x-4">
-          <button className="bg-transparent border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-4 py-1 rounded-tl-3xl rounded-br-3xl cursor-pointer rounded-lg font-medium transition-all">
-            Login
-          </button>
-        </div>
-      </nav>
-
+    <div className="min-h-screen bg-gradient-to-r from-[#847115] via-[#a68c2c] to-[#d2b34d] font-sans text-gray-800">
       {/* Hero Section */}
-      <section className="text-center py-20 px-4">
-        <h1
-          data-aos="fade-up"
-          data-aos-duration="500"
-          className="text-4xl lg:text-6xl font-extrabold text-blue-700 drop-shadow-sm"
-        >
-          Conservation Through Observation
-        </h1>
-        <p
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          className="mt-6 text-lg lg:text-xl max-w-3xl mx-auto text-gray-700 italic"
-        >
-          Welcome to a <span className="font-semibold">social app</span> where
-          bird lovers connect, share, and protect the beauty of our feathered
-          friends. <span className="italic">Join the movement</span> and
-          contribute by observing and sharing sightings from around the world.
-        </p>
-        <div
-          data-aos-easing="ease-in"
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          className="mt-8"
-        >
-          <button className="bg-blue-600 hover:bg-transparent hover:border hover:border-blue-600 hover:text-blue-600 rounded-tl-4xl rounded-br-4xl cursor-pointer text-white text-md px-6 py-3 rounded-2xl shadow-lg transition-all">
-            Get Started
-          </button>
+      <section
+        style={{
+          backgroundImage: "url('/images/background.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+        className="text-center h-[100vh]   px-4"
+      >
+        <Navbar />
+        <div className="flex flex-col mt-30">
+          <h1
+            data-aos="fade-up"
+            data-aos-duration="500"
+            className="text-4xl lg:text-6xl font-extrabold text-white/50 drop-shadow-sm"
+          >
+            Conservation Through Observation
+          </h1>
+          <p
+            data-aos="fade-up"
+            data-aos-duration="1000"
+            className="mt-6 text-lg lg:text-xl max-w-3xl mx-auto text-gray-700 italic"
+          >
+            Welcome to a <span className="font-semibold">social app</span> where
+            bird lovers connect, share, and protect the beauty of our feathered
+            friends. <span className="italic">Join the movement</span> and
+            contribute by observing and sharing sightings from around the world.
+          </p>
+          <div
+            data-aos-easing="ease-in"
+            data-aos="fade-up"
+            data-aos-duration="1000"
+            className="mt-8"
+          >
+            <button
+              onClick={() => {
+                router.push("/signup");
+              }}
+              className="hover:bg-[#c0a521]   bg-transparent border border-[#c0a521] text-[#c0a521] rounded-tl-4xl rounded-br-4xl cursor-pointer hover:text-white text-md px-6 py-3 rounded-2xl shadow-lg transition-all"
+            >
+              Get Started
+            </button>
+          </div>
         </div>
       </section>
 
       {/* Birds Section */}
       <section className="py-16 bg-white px-4" data-aos="fade-up">
-        <h2 className="text-3xl lg:text-5xl font-bold text-center text-blue-600 mb-8">
+        <h2 className="text-3xl lg:text-5xl font-bold text-center text-gray-600 italic  mb-8">
           Discover Birds
         </h2>
         <p className="text-center text-gray-600 text-md max-w-2xl mx-auto mb-12 italic">
@@ -80,57 +85,57 @@ export default function LandingPage() {
             <div className="p-4">
               <Image
                 src={bird1}
-                // alt={`Bird ${bird}`}
+                alt={`Bird`}
                 width={500}
                 height={300}
                 className="rounded-xl "
               />
-              <h3 className="mt-4 text-xl font-semibold text-blue-800">
+              <h3 className="mt-4  text-[18px] lg:text-[1.2vw] text-gray-600 ">
                 Beautiful Bird #
               </h3>
-              <p className="text-gray-600 text-sm mt-2 italic">
+              <p className="text-gray-600 text-[13px] lg:text-[0.9vw] mt-2  italic">
                 Shared by a community member. Add your own bird story and
                 inspire others.
               </p>
             </div>
           </div>
           <div
-            className="rounded-2xl w-[300px] h-[400px] shadow-md hover:shadow-xl transition bg-white overflow-hidden"
+            className="rounded-2xl sm:w-[300px] min-h-[400px] shadow-md hover:shadow-xl transition bg-white overflow-hidden"
             data-aos="zoom-in"
           >
             <div className="p-4">
               <Image
                 src={bird3}
-                // alt={`Bird ${bird}`}
+                alt={`Bird `}
                 width={400}
                 height={300}
                 className="rounded-xl object-cover"
               />
-              <h3 className="mt-4 text-xl font-semibold text-blue-800">
+              <h3 className="mt-4 text-xl  text-[18px] lg:text-[1.2vw] text-gray-600">
                 Beautiful Bird #
               </h3>
-              <p className="text-gray-600 text-sm mt-2 italic">
+              <p className="text-gray-600 text-[13px] lg:text-[0.9vw] mt-2 italic">
                 Shared by a community member. Add your own bird story and
                 inspire others.
               </p>
             </div>
           </div>
           <div
-            className="rounded-2xl w-[200px] shadow-md hover:shadow-xl transition bg-white overflow-hidden"
+            className="rounded-2xl sm:w-[200px] shadow-md hover:shadow-xl transition bg-white overflow-hidden"
             data-aos="zoom-in"
           >
             <div className="p-4">
               <Image
                 src={bird2}
-                // alt={`Bird ${bird}`}
+                alt={`Bird `}
                 width={400}
                 height={400}
                 className="rounded-xl h-[230px] object-cover"
               />
-              <h3 className="mt-4 text-xl font-semibold text-blue-800">
+              <h3 className="mt-4 text-xl  text-[18px] lg:text-[1.2vw] text-gray-600">
                 Beautiful Bird #
               </h3>
-              <p className="text-gray-600 text-sm mt-2 italic">
+              <p className="text-gray-600 text-[13px] lg:text-[0.9vw] mt-2 italic">
                 Shared by a community member. Add your own bird story and
                 inspire others.
               </p>
@@ -141,12 +146,12 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer
-        className="bg-blue-900 text-white py-10 px-4 mt-16"
+        className="bg-gray-900 text-white py-10 px-4 mt-1.5"
         data-aos="fade-up"
       >
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
-            <h4 className="text-lg font-semibold">
+            <h4 className="text-lg font-[400]">
               Conservation Through Observation
             </h4>
             <p className="text-sm text-gray-300 italic">
