@@ -133,6 +133,7 @@ const page = () => {
                 <div className="flex items-center gap-1">
                   <p className="text-[12px]">if you alreadt have an account?</p>
                   <button
+                  type='button'
                     onClick={() => {
                       router.push("/login");
                     }}

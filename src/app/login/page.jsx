@@ -88,6 +88,7 @@ const Login = () => {
                     </button>
                   </div>
                   <button
+                  type='button'
                     onClick={() => {
                       router.push("/forgetpassword");
                     }}
