@@ -38,7 +38,7 @@ const Login = () => {
         </h1>
       </div>
       <div className="h-full md:w-1/2 flex justify-center items-center">
-        <div className="bg-white/20 rounded-2xl min-w-[320px] md:w-[450px] p-2 min-h-[240px]">
+        <div className="bg-white/30  rounded-2xl min-w-[320px] md:w-[450px] p-2 min-h-[240px]">
           <div className="w-full ">
             <h1 className="text-center mt-3 italic">
               Log<span className="text-[#aa9322]">in</span>
@@ -74,16 +74,27 @@ const Login = () => {
                 )}
               </div>
               <div>
-                <div className="flex items-center gap-1">
-                  <p className="text-[10px]">if you dont have an account?</p>
+                <div className="flex items-center justify-between gap-1">
+                  <div className='flex items-center gap-1'>
+                    <p className="text-[10px]">if you dont have an account?</p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        router.push("/signup");
+                      }}
+                      className="text-blue-800 cursor-pointer text-12px lg:text-[0.9vw]"
+                    >
+                      signup
+                    </button>
+                  </div>
                   <button
-                  type='button'
                     onClick={() => {
-                      router.push("/signup");
+                      router.push("/forgetpassword");
                     }}
-                    className="text-blue-800 cursor-pointer text-12px lg:text-[0.9vw]"
+                    className="underline cursor-pointer text-10px lg:text-[0.7vw]"
                   >
-                    signup
+                    {" "}
+                    forget password
                   </button>
                 </div>
                 <button className="mt-1 bg-[#c0a521] text-white hover:bg-transparent hover:text-[#c0a521] hover:border hover:border-[#c0a521] rounded-tl-4xl rounded-br-4xl cursor-pointer text-[12px] px-8 py-1 rounded-2xl shadow-lg transition-all duration-300">

@@ -1,0 +1,66 @@
+"use client";
+import React, { useState } from "react";
+// import InputField from "../components/InputField";
+import { useForm } from "react-hook-form";
+import { LoginSchema } from "../schema/LoginSchema";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter } from "next/navigation";
+import ForgetEmailSection from "./forgetEmail";
+import OTPSection from "./forgetOTP";
+import NewPassword from './newPassword';
+const ForgetPassword = () => {
+  const [pageNum, setPageNum] = useState(1);
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(LoginSchema),
+    defaultValues: {},
+  });
+  console.log(pageNum);
+
+  return (
+    <div
+      style={{
+        backgroundImage: "url('/images/background.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100vh",
+        width: "100%",
+      }}
+    >
+      {pageNum === 1 && (
+        <ForgetEmailSection
+          register={register}
+          errors={errors}
+          handleSubmit={handleSubmit}
+          setPageNum={setPageNum}
+          pageNum={pageNum}
+        />
+      )}
+      {pageNum === 2 && (
+        <OTPSection
+          register={register}
+          errors={errors}
+          handleSubmit={handleSubmit}
+          setPageNum={setPageNum}
+          pageNum={pageNum}
+        />
+      )}
+      {pageNum === 3 && (
+        <NewPassword
+          register={register}
+          errors={errors}
+          handleSubmit={handleSubmit}
+          setPageNum={setPageNum}
+          pageNum={pageNum}
+        />
+      )}
+    </div>
+  );
+};
+
+export default ForgetPassword;
