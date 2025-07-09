@@ -33,6 +33,7 @@ const ForgetPassword = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: "100vh",
+        // padding: '10px 6px',
         width: "100%",
       }}
     >

@@ -13,7 +13,7 @@ const OTPSection = ({
   };
   return (
     <div className="bg-hero bg-cover  flex items-center flex-col md:flex-row min-h-screen w-full">
-      <div className="h-[500px] md:h-full md:w-1/2  flex flex-col justify-center items-center">
+      <div className="h-[300px] md:h-full md:w-1/2  flex flex-col justify-center items-center">
         <h1 className="text-[20px] w-[280px] lg:text-4xl text-center md:w-[400px] font-[400] italic text-white/50 drop-shadow-sm">
           reset it to continue your journey with Conservation Through
           <span className="text-[#aa9322]"> Observation</span>
@@ -57,7 +57,7 @@ const OTPSection = ({
                 onClick={() => {
                   setPageNum(pageNum - 1);
                 }}
-                className="text-blue-800 cursor-pointer text-12px lg:text-[0.9vw]"
+                className="text-blue-800 cursor-pointer text-[12px] lg:text-[0.9vw]"
               >
                 back
               </button>

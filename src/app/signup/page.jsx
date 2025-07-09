@@ -31,6 +31,7 @@ const page = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: "100vh",
+        padding:'10px 10px',
         width: "100%",
       }}
       className="bg-hero bg-cover flex  flex-col md:flex-row min-h-screen w-full"
@@ -140,7 +141,7 @@ const page = () => {
                     onClick={() => {
                       router.push("/login");
                     }}
-                    className="text-blue-800 cursor-pointer text-12px lg:text-[0.9vw]"
+                    className="text-blue-800 cursor-pointer text-[12px] lg:text-[0.9vw]"
                   >
                     login
                   </button>

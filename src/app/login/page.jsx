@@ -36,7 +36,7 @@ const Login = () => {
       }}
       className="bg-hero bg-cover flex flex-col md:flex-row min-h-screen w-full"
     >
-      <div className="h-[400px]  md:h-full md:w-1/2  flex flex-col justify-center items-center">
+      <div className="h-[300px]  md:h-full md:w-1/2  flex flex-col justify-center items-center">
         <h1 className="text-[20px] w-[280px] lg:text-4xl text-center md:w-[400px] font-[400] italic text-white/50 drop-shadow-sm">
           Welcome to Conservation Through Observation —{" "}
           <span className="text-[#aa9322]"> Login</span> to begin your journey
