@@ -24,7 +24,7 @@ const Navbar = () => {
           onClick={() => {
             router.push("/login");
           }}
-          className="bg-transparent border border-gray-600 text-gray-600 hover:bg-white/10 hover:text-white px-4 py-1 rounded-tl-3xl rounded-br-3xl cursor-pointer rounded-lg font-medium transition-all"
+          className="bg-transparent border focus:bg-gray-600 focus:text-white border-gray-600 text-gray-600 hover:bg-white/10 hover:text-white px-4 py-1 rounded-tl-3xl rounded-br-3xl cursor-pointer rounded-lg font-medium transition-all"
         >
           Login
         </button>

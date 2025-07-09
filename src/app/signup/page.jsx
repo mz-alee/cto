@@ -5,6 +5,7 @@ import { SignupSchema } from "../schema/SignupSchema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
+import RegisterMutation from "../services/auth/useRegister";
 const page = () => {
   const router = useRouter();
   const {
@@ -18,7 +19,9 @@ const page = () => {
     resolver: yupResolver(SignupSchema),
     defaultValues: {},
   });
+  const signup = RegisterMutation();
   const handleData = (data) => {
+    signup.mutate(data);
     console.log("react hook form data");
   };
   return (
@@ -30,7 +33,7 @@ const page = () => {
         height: "100vh",
         width: "100%",
       }}
-      className="bg-hero bg-cover flex flex-col md:flex-row min-h-screen w-full"
+      className="bg-hero bg-cover flex  flex-col md:flex-row min-h-screen w-full"
     >
       <div className="h-[500px] md:h-full md:w-1/2  flex flex-col justify-center items-center">
         <h1 className="text-[20px] w-[280px] lg:text-4xl text-center md:w-[400px] font-[400]  italic text-white/50 drop-shadow-sm">
@@ -133,7 +136,7 @@ const page = () => {
                 <div className="flex items-center gap-1">
                   <p className="text-[12px]">if you alreadt have an account?</p>
                   <button
-                  type='button'
+                    type="button"
                     onClick={() => {
                       router.push("/login");
                     }}

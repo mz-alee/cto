@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import React from "react";
 import InputField from "../components/InputField";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 const ForgetEmailSection = ({
   register,
@@ -10,14 +10,14 @@ const ForgetEmailSection = ({
   handleSubmit,
   errors,
 }) => {
-  const router =useRouter()
-  
+  const router = useRouter();
+
   const handleData = (data) => {
     console.log("react hook form data");
   };
   return (
-    <div className="bg-hero bg-cover  flex items-center flex-col md:flex-row min-h-screen w-full">
-      <div className="h-[500px] md:h-full md:w-1/2  flex flex-col justify-center items-center">
+    <div className="  flex items-center flex-col md:flex-row min-h-screen w-full">
+      <div className="h-[400px] lg:[300px] md:h-full md:w-1/2  flex flex-col justify-center items-center">
         <h1 className="text-[20px] w-[280px] lg:text-4xl text-center md:w-[400px] font-[400] italic text-white/50 drop-shadow-sm">
           reset it to continue your journey with Conservation Through
           <span className="text-[#aa9322]"> Observation</span>
@@ -63,7 +63,9 @@ const ForgetEmailSection = ({
                 </div>
                 <button
                   onClick={() => {
-                    setPageNum(pageNum + 1);
+                    // if (!errors.email) {
+                    // }
+                    // setPageNum(pageNum + 1);
                   }}
                   className="mt-1 bg-[#c0a521] text-white hover:bg-transparent hover:text-[#c0a521] hover:border hover:border-[#c0a521] rounded-tl-4xl rounded-br-4xl cursor-pointer text-[12px] px-8 py-1 rounded-2xl shadow-lg transition-all duration-300"
                 >

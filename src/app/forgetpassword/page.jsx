@@ -7,7 +7,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import ForgetEmailSection from "./forgetEmail";
 import OTPSection from "./forgetOTP";
-import NewPassword from './newPassword';
+import NewPassword from "./newPassword";
+import * as yup from "yup";
+const forgetSchema = yup.object({
+  email: yup.string().required("email is a required field"),
+});
 const ForgetPassword = () => {
   const [pageNum, setPageNum] = useState(1);
   const {
@@ -17,7 +21,7 @@ const ForgetPassword = () => {
     getValues,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(LoginSchema),
+    resolver: yupResolver(forgetSchema),
     defaultValues: {},
   });
   console.log(pageNum);

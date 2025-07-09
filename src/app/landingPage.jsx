@@ -58,7 +58,7 @@ export default function LandingPage() {
               onClick={() => {
                 router.push("/signup");
               }}
-              className="hover:bg-[#c0a521]   bg-transparent border border-[#c0a521] text-[#c0a521] rounded-tl-4xl rounded-br-4xl cursor-pointer hover:text-white text-md px-6 py-3 rounded-2xl shadow-lg transition-all"
+              className="hover:bg-[#c0a521] focus:bg-[#c0a521] focus:text-white  bg-transparent border border-[#c0a521] text-[#c0a521] rounded-tl-4xl rounded-br-4xl cursor-pointer hover:text-white text-md px-6 py-3 rounded-2xl shadow-lg transition-all"
             >
               Get Started
             </button>
