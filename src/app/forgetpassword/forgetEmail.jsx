@@ -16,7 +16,7 @@ const ForgetEmailSection = ({
     console.log("react hook form data");
   };
   return (
-    <div className="  flex items-center flex-col md:flex-row  w-full">
+    <div className="  flex items-center flex-col md:flex-row  h-screen w-full">
       <div className="h-[300px] lg:[300px] md:h-full md:w-1/2  flex flex-col justify-center items-center">
         <h1 className="text-[20px] w-[280px] lg:text-4xl text-center md:w-[400px] font-[400] italic text-white/50 drop-shadow-sm">
           reset it to continue your journey with Conservation Through

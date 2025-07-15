@@ -2,6 +2,8 @@ import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { QueryClientProvider } from "@tanstack/react-query";
 import QueryProvider from "./components/QueryProvider";
+// import { Provider } from 'react-redux';
+// import { store } from './store/store';
 
 export const metadata = {
   title: "Create Next App",
@@ -18,9 +20,11 @@ export default function RootLayout({ children }) {
         suppressHydrationWarning
         className={`${poppins.variable} ${poppins.variable} antialiased`}
       >
+        {/* <Provider store={store}> */}
         <QueryClientProvider client={QueryProvider}>
           <div className={`${poppins.className}`}>{children}</div>
         </QueryClientProvider>
+        {/* </Provider> */}
       </body>
     </html>
   );

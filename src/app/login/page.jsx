@@ -6,6 +6,8 @@ import { LoginSchema } from "../schema/LoginSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { LoginMutation, useLoginMutation } from "../services/auth/useLogin";
+import { toast } from "react-toastify";
+import Loader from "../components/Loader";
 const Login = () => {
   const router = useRouter();
   const {
@@ -24,6 +26,7 @@ const Login = () => {
     login.mutate(data);
     console.log("react hook form data");
   };
+
   return (
     <div
       style={{
@@ -32,7 +35,7 @@ const Login = () => {
         backgroundPosition: "center",
         height: "100vh",
         width: "100%",
-        padding: '2px 10px'
+        padding: "2px 10px",
       }}
       className="bg-hero bg-cover flex flex-col md:flex-row min-h-screen w-full"
     >
@@ -102,8 +105,8 @@ const Login = () => {
                     forget password
                   </button>
                 </div>
-                <button className="mt-1 bg-[#c0a521] text-white hover:bg-transparent hover:text-[#c0a521] hover:border hover:border-[#c0a521] rounded-tl-4xl rounded-br-4xl cursor-pointer text-[12px] px-8 py-1 rounded-2xl shadow-lg transition-all duration-300">
-                  login
+                <button className="mt-1 bg-[#c0a521] text-white hover:bg-transparent hover:text-[#847942] hover:border hover:border-[#6e663d] rounded-tl-4xl rounded-br-4xl cursor-pointer text-[12px] px-8 py-1 rounded-2xl shadow-lg transition-all duration-300">
+                  {login.isPending ? <Loader color="white" /> : "login"}
                 </button>
               </div>
             </form>

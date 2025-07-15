@@ -1,9 +1,10 @@
 import React from "react";
 import * as yup from "yup";
 export const SignupSchema = yup.object({
-  fullname: yup.string().required("full name is a required field"),
+  username: yup.string().required("full name is a required field"),
   email: yup.string().required("email is a required field"),
-  number: yup.string().required("number is a required field"),
+  gender: yup.string().required("gender is a required field"),
+  phone_number: yup.string().required("number is a required field"),
   date_of_birth: yup.string().required("date of birth is a required field"),
   password: yup
     .string()
