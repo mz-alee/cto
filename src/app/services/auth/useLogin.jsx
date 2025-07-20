@@ -1,20 +1,23 @@
 "use client";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { LoginPostApi } from "../../api/auth/loginApi";
 import { useMutation } from "@tanstack/react-query";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from "react-toastify";
+import { setCookie } from "cookies-next";
 
 export const LoginMutation = () => {
-  const router = useRouter()
+  const router = useRouter();
   return useMutation({
     mutationFn: (data) => LoginPostApi(data),
-    onSuccess:()=>{
-      router.push('/dashboard')
+    onSuccess: (data) => {
+      console.log(data.data);
+      setCookie("token", data?.data?.access_token);
+      router.push("/dashboard");
     },
     onError: (err) => {
       console.log("login api error", err?.response?.data?.error);
-      toast.error(err?.response?.data?.error)
+      toast.error(err?.response?.data?.error);
     },
   });
-  <ToastContainer/>
+  <ToastContainer />;
 };

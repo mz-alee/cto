@@ -1,61 +1,45 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { IoIosClose } from "react-icons/io";
 import Modal from "react-modal";
 import { LuImagePlus } from "react-icons/lu";
 import Image from "next/image";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getCookie } from "cookies-next";
 import Loader from "./Loader";
 import InputField from "./InputField";
-interface ProfileFormInputs {
-  bio: string;
-  image?: File | null;
-}
-
-interface PostModalProps {
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
-}
 
 const profileSchema = yup.object().shape({
-  bio: yup.string().required("Username is required"),
+  about: yup.string().required("Username is required"),
 });
 
-const PostModal: React.FC<PostModalProps> = ({ isOpen, setIsOpen }) => {
-  const [file, setFile] = useState<string | null>(null);
-
-  const data = {
-    data: {
-      user_details: {
-        image: "",
-        bio: "",
-      },
-    },
-  };
+const CreatePostModal = ({ isOpen, setIsOpen, postMutation }) => {
+  const [file, setFile] = useState(null);
 
   const {
     handleSubmit,
     setValue,
+    getValues,
+    reset,
     register,
     formState: { errors },
-  } = useForm<ProfileFormInputs>({
+  } = useForm({
     resolver: yupResolver(profileSchema),
     defaultValues: {
-      bio: data.data.user_details.bio,
-      image: undefined,
+      about: "",
+      image: "",
     },
   });
 
+  const value = getValues();
   useEffect(() => {
     Modal.setAppElement("#root");
   }, []);
 
-  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const img = e.target.files?.[0];
+  const handleImage = (e) => {
+    const img = e.target.files && e.target.files[0];
     if (img) {
       const imageURL = URL.createObjectURL(img);
       setValue("image", img);
@@ -63,20 +47,16 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, setIsOpen }) => {
     }
   };
 
-  const handleProfileData: SubmitHandler<ProfileFormInputs> = (formData) => {
-    // Use your mutation here
-    console.log(formData);
-
-    if (formData.image) {
-      // profileEditMutation.mutate(formData);
-      console.log("Uploading image + username");
-    } else {
-      const usernameOnly = { bio: formData.bio };
-      // profileEditMutation.mutate(usernameOnly);
-      console.log("Updating only username");
-    }
+  const handleProfileData = (formData) => {
+    postMutation.mutate(formData);
   };
 
+  useEffect(() => {
+    if (postMutation.isSuccess) {
+      setFile('')
+      reset();
+    }
+  }, [postMutation.isSuccess]);
   return (
     <Modal
       isOpen={isOpen}
@@ -91,7 +71,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, setIsOpen }) => {
           minHeight: "350px",
           width: "350px",
           top: "50%",
-          padding: '10px 10px',
+          padding: "10px 10px",
           left: "50%",
           transform: "translate(-50%, -50%)",
           borderRadius: "8px",
@@ -118,10 +98,10 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, setIsOpen }) => {
             htmlFor="profile"
             className="border-dashed bg-gray-50 hover:bg-gray-100 cursor-pointer border rounded-lg flex flex-col items-center justify-center gap-2 border-gray-300 h-30 w-full p-4"
           >
-            {file || data?.data?.user_details?.image ? (
+            {file ? (
               <div className="bg-gray-400 rounded-full overflow-hidden w-16 h-16 flex justify-center items-center">
                 <Image
-                  src={file || data.data.user_details.image}
+                  src={file}
                   alt="Profile"
                   width={60}
                   height={60}
@@ -131,7 +111,9 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, setIsOpen }) => {
             ) : (
               <>
                 <LuImagePlus className="text-lg" />
-                <p className="text-[12px] text-gray-700">Click or drag to upload</p>
+                <p className="text-[12px] text-gray-700">
+                  Click or drag to upload
+                </p>
                 <p className="text-gray-500 text-[12px]">PNG, JPG, SVG</p>
               </>
             )}
@@ -146,16 +128,15 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, setIsOpen }) => {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-[13px] capitalize">bio</label>
+          <label className="text-[13px] lg:text-[1vw] capitalize">about</label>
           <InputField
             register={register}
-            placeholder="bio"
+            placeholder="about"
             type="text"
-            name="bio"
-            values={data.data.user_details.bio}
+            name="about"
           />
-          {errors.bio && (
-            <p className="text-red-500 text-xs">{errors.bio.message}</p>
+          {errors.about && (
+            <p className="text-red-500 text-xs">{errors.about.message}</p>
           )}
         </div>
 
@@ -163,17 +144,15 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, setIsOpen }) => {
           <button
             type="button"
             onClick={() => setIsOpen(false)}
-            className="border text-[12px] rounded-2xl px-3 py-1 text-gray-600 hover:bg-gray-100"
+            className="border text-[14px] rounded-2xl px-3 py-1 text-gray-600 hover:bg-gray-100"
           >
             Discard
           </button>
           <button
             type="submit"
-            className="bg-[#132928] text-white text-[12px] rounded-2xl px-3 py-1 hover:bg-[#375f5d]"
+            className="bg-[#132928] text-white text-[14px] rounded-2xl px-3 py-1 hover:bg-[#375f5d]"
           >
-            {/* Replace with actual loading state: */}
-            {/* {profileEditMutation.isPending ? <Loader /> : "Save Changes"} */}
-            Save Changes
+            {postMutation.isPending ? <Loader color="white" /> : "upload"}
           </button>
         </div>
       </form>
@@ -181,4 +160,4 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, setIsOpen }) => {
   );
 };
 
-export default PostModal;
+export default CreatePostModal;

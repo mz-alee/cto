@@ -1,32 +1,22 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { IoIosClose } from "react-icons/io";
 import Modal from "react-modal";
 import { LuImagePlus } from "react-icons/lu";
 import Image from "next/image";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getCookie } from "cookies-next";
 import Loader from "./Loader";
 import InputField from "./InputField";
-interface ProfileFormInputs {
-  username: string;
-  image?: File | null;
-}
-
-interface ProfileEditModalProps {
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
-}
 
 const profileSchema = yup.object().shape({
   username: yup.string().required("Username is required"),
 });
 
-const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ isOpen, setIsOpen }) => {
-  const [file, setFile] = useState<string | null>(null);
+const ProfileEditModal = ({ isOpen, setIsOpen }) => {
+  const [file, setFile] = useState(null);
 
   const data = {
     data: {
@@ -42,7 +32,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ isOpen, setIsOpen }
     setValue,
     register,
     formState: { errors },
-  } = useForm<ProfileFormInputs>({
+  } = useForm({
     resolver: yupResolver(profileSchema),
     defaultValues: {
       username: data.data.user_details.username,
@@ -54,7 +44,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ isOpen, setIsOpen }
     Modal.setAppElement("#root");
   }, []);
 
-  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImage = (e) => {
     const img = e.target.files?.[0];
     if (img) {
       const imageURL = URL.createObjectURL(img);
@@ -63,16 +53,13 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ isOpen, setIsOpen }
     }
   };
 
-  const handleProfileData: SubmitHandler<ProfileFormInputs> = (formData) => {
-    // Use your mutation here
+  const handleProfileData = (formData) => {
     console.log(formData);
 
     if (formData.image) {
-      // profileEditMutation.mutate(formData);
       console.log("Uploading image + username");
     } else {
       const usernameOnly = { username: formData.username };
-      // profileEditMutation.mutate(usernameOnly);
       console.log("Updating only username");
     }
   };
@@ -91,7 +78,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ isOpen, setIsOpen }
           minHeight: "350px",
           width: "350px",
           top: "50%",
-          padding: '10px 10px',
+          padding: "10px 10px",
           left: "50%",
           transform: "translate(-50%, -50%)",
           borderRadius: "8px",
@@ -108,9 +95,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ isOpen, setIsOpen }
             onClick={() => setIsOpen(false)}
             className="text-2xl cursor-pointer"
           />
-          <h2 className="text-center font-medium text-[15px]">
-            create your post
-          </h2>
+          <h2 className="text-center font-medium text-[15px]">Edit Profile</h2>
         </div>
 
         <div>
@@ -119,19 +104,21 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ isOpen, setIsOpen }
             className="border-dashed bg-gray-50 hover:bg-gray-100 cursor-pointer border rounded-lg flex flex-col items-center justify-center gap-2 border-gray-300 h-30 w-full p-4"
           >
             {file || data?.data?.user_details?.image ? (
-              <div className="bg-gray-400 rounded-full overflow-hidden w-16 h-16 flex justify-center items-center">
+              <div className="bg-gray-400 rounded-full overflow-hidden w-20 h-20 flex justify-center items-center">
                 <Image
                   src={file || data.data.user_details.image}
                   alt="Profile"
-                  width={60}
-                  height={60}
-                  className="object-cover rounded-full"
+                  width={100}
+                  height={100}
+                  className="w-20 h-20 object-cover rounded-full"
                 />
               </div>
             ) : (
               <>
                 <LuImagePlus className="text-lg" />
-                <p className="text-[12px] text-gray-700">Click or drag to upload</p>
+                <p className="text-[12px] text-gray-700">
+                  Click or drag to upload
+                </p>
                 <p className="text-gray-500 text-[12px]">PNG, JPG, SVG</p>
               </>
             )}
@@ -171,8 +158,6 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ isOpen, setIsOpen }
             type="submit"
             className="bg-[#132928] text-white text-[12px] rounded-2xl px-3 py-1 hover:bg-[#375f5d]"
           >
-            {/* Replace with actual loading state: */}
-            {/* {profileEditMutation.isPending ? <Loader /> : "Save Changes"} */}
             Save Changes
           </button>
         </div>
@@ -180,5 +165,4 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ isOpen, setIsOpen }
     </Modal>
   );
 };
-
 export default ProfileEditModal;
