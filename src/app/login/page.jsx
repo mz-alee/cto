@@ -6,7 +6,7 @@ import { LoginSchema } from "../schema/LoginSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { LoginMutation, useLoginMutation } from "../services/auth/useLogin";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import Loader from "../components/Loader";
 const Login = () => {
   const router = useRouter();
@@ -21,7 +21,7 @@ const Login = () => {
     defaultValues: {},
   });
   const login = LoginMutation();
-
+  
   const handleData = (data) => {
     login.mutate(data);
     console.log("react hook form data");
@@ -29,16 +29,17 @@ const Login = () => {
 
   return (
     <div
-      style={{
-        backgroundImage: "url('/images/background.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        height: "100vh",
-        width: "100%",
-        padding: "2px 10px",
-      }}
-      className="bg-hero bg-cover flex flex-col md:flex-row min-h-screen w-full"
+    style={{
+      backgroundImage: "url('/images/background.jpg')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      height: "100vh",
+      width: "100%",
+      padding: "2px 10px",
+    }}
+    className="bg-hero bg-cover flex flex-col md:flex-row min-h-screen w-full"
     >
+      <ToastContainer/>
       <div className="h-[300px]  md:h-full md:w-1/2  flex flex-col justify-center items-center">
         <h1 className="text-[20px] w-[280px] lg:text-4xl text-center md:w-[400px] font-[400] italic text-white/50 drop-shadow-sm">
           Welcome to Conservation Through Observation —{" "}

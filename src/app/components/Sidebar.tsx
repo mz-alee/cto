@@ -22,7 +22,6 @@ interface SidebarItem {
   label: string;
   icon: React.ComponentType<{ className?: string }>;
   badge?: number;
-  src: string;
 }
 
 interface SidebarProps {
@@ -35,9 +34,9 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, isOpen, setIsOpen, currentUser }) => {
   const sidebarItems: SidebarItem[] = [
-    { src: '/dashboard', id: "home", label: "Home", icon: Home },
-    { src: '/dashboard/profile', id: "profile", label: "Profile", icon: User },
-    { src: '', id: "settings", label: "Settings", icon: Settings },
+    { id: "home", label: "Home", icon: Home },
+    { id: "profile", label: "Profile", icon: User },
+    { id: "settings", label: "Settings", icon: Settings },
   ];
 
   return (
@@ -80,7 +79,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, isOpen, setI
                   }`}
               >
                 <item.icon className="w-6 h-6" />
-                <Link href={item.src} className="font-medium">{item.label}</Link>
+                <button className="font-medium">{item.label}</button>
                 {
                   item.badge && (
                     <span className="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-1">

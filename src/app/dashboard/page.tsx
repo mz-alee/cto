@@ -12,6 +12,8 @@ import {
   Menu,
 } from "lucide-react";
 import Sidebar from "../components/Sidebar";
+import { CreatePost } from "./components/header";
+import Profile from "./profile/page";
 // Types
 interface User {
   name: string;
@@ -38,9 +40,6 @@ interface PostCardProps {
   onToggleBookmark: (postId: number) => void;
 }
 
-interface CreatePostProps {
-  currentUser: User;
-}
 
 interface HomeScreenProps {
   posts: Post[];
@@ -52,12 +51,12 @@ interface HomeScreenProps {
 }
 
 // Post Card Component
-const PostCard: React.FC<PostCardProps> = ({ 
-  post, 
-  likedPosts, 
-  bookmarkedPosts, 
-  onToggleLike, 
-  onToggleBookmark 
+const PostCard: React.FC<PostCardProps> = ({
+  post,
+  likedPosts,
+  bookmarkedPosts,
+  onToggleLike,
+  onToggleBookmark
 }) => {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6 mb-4 hover:shadow-md transition-all duration-200">
@@ -91,14 +90,12 @@ const PostCard: React.FC<PostCardProps> = ({
             <div className="flex items-center space-x-4 sm:space-x-6">
               <button
                 onClick={() => onToggleLike(post.id)}
-                className={`flex items-center space-x-1 sm:space-x-2 hover:text-red-500 transition-colors ${
-                  likedPosts.has(post.id) ? "text-red-500" : "text-gray-500"
-                }`}
+                className={`flex items-center space-x-1 sm:space-x-2 hover:text-red-500 transition-colors ${likedPosts.has(post.id) ? "text-red-500" : "text-gray-500"
+                  }`}
               >
                 <Heart
-                  className={`w-4 h-4 sm:w-5 sm:h-5 ${
-                    likedPosts.has(post.id) ? "fill-current" : ""
-                  }`}
+                  className={`w-4 h-4 sm:w-5 sm:h-5 ${likedPosts.has(post.id) ? "fill-current" : ""
+                    }`}
                 />
                 <span className="text-sm">{post.likes}</span>
               </button>
@@ -117,16 +114,14 @@ const PostCard: React.FC<PostCardProps> = ({
             <div className="flex items-center space-x-1 sm:space-x-2">
               <button
                 onClick={() => onToggleBookmark(post.id)}
-                className={`p-1.5 sm:p-2 rounded-full hover:bg-gray-100 transition-colors ${
-                  bookmarkedPosts.has(post.id)
+                className={`p-1.5 sm:p-2 rounded-full hover:bg-gray-100 transition-colors ${bookmarkedPosts.has(post.id)
                     ? "text-yellow-500"
                     : "text-gray-500"
-                }`}
+                  }`}
               >
                 <Bookmark
-                  className={`w-4 h-4 sm:w-5 sm:h-5 ${
-                    bookmarkedPosts.has(post.id) ? "fill-current" : ""
-                  }`}
+                  className={`w-4 h-4 sm:w-5 sm:h-5 ${bookmarkedPosts.has(post.id) ? "fill-current" : ""
+                    }`}
                 />
               </button>
 
@@ -141,53 +136,15 @@ const PostCard: React.FC<PostCardProps> = ({
   );
 };
 
-// Create Post Component
-const CreatePost: React.FC<CreatePostProps> = ({ currentUser }) => {
-  return (
-    <div className="bg-gray-50 rounded-xl p-4 mb-6">
-      <div className="flex items-center space-x-3">
-        <img
-          src={currentUser.avatar}
-          alt="Your Avatar"
-          className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover flex-shrink-0"
-        />
-        <input
-          type="text"
-          placeholder="What's on your mind?"
-          className="flex-1 bg-white rounded-full px-4 py-2 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
-        />
-      </div>
-      <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
-        <div className="flex items-center space-x-2 sm:space-x-4">
-          <button className="flex items-center space-x-1 sm:space-x-2 text-gray-500 hover:text-blue-500 transition-colors">
-            <Image className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="text-sm hidden sm:inline">Photo</span>
-          </button>
-          <button className="flex items-center space-x-1 sm:space-x-2 text-gray-500 hover:text-green-500 transition-colors">
-            <Video className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="text-sm hidden sm:inline">Video</span>
-          </button>
-          <button className="flex items-center space-x-1 sm:space-x-2 text-gray-500 hover:text-yellow-500 transition-colors">
-            <Smile className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="text-sm hidden sm:inline">Feeling</span>
-          </button>
-        </div>
-        <button className="bg-blue-600 text-white px-4 py-2 sm:px-6 rounded-full hover:bg-blue-700 transition-colors text-sm sm:text-base">
-          Post
-        </button>
-      </div>
-    </div>
-  );
-};
 
 // Home Screen Component
-const HomeScreen: React.FC<HomeScreenProps> = ({ 
-  posts, 
-  likedPosts, 
-  bookmarkedPosts, 
-  onToggleLike, 
+const HomeScreen: React.FC<HomeScreenProps> = ({
+  posts,
+  likedPosts,
+  bookmarkedPosts,
+  onToggleLike,
   onToggleBookmark,
-  currentUser 
+  currentUser
 }) => {
   return (
     <div className="min-h-screen bg-gray-50">
@@ -334,6 +291,16 @@ const SocialDashboard: React.FC = () => {
             onToggleLike={toggleLike}
             onToggleBookmark={toggleBookmark}
             currentUser={currentUser}
+          />
+        )}
+        {activeTab === "profile" && (
+          <Profile
+          // posts={posts}
+          // likedPosts={likedPosts}
+          // bookmarkedPosts={bookmarkedPosts}
+          // onToggleLike={toggleLike}
+          // onToggleBookmark={toggleBookmark}
+          // currentUser={currentUser}
           />
         )}
         {activeTab !== "home" && (
