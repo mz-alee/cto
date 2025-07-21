@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "http",
-        hostname: "b98744752438.ngrok-free.app",
+        hostname: "4034fc71fea4.ngrok-free.app",
         pathname: "/media/**", // <-- double asterisk to match nested folders
       },
     ],

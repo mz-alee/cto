@@ -11,32 +11,26 @@ import profile from "../../../public/Images/empty.webp";
 import Image from "next/image";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css"; // Ensure it's imported
-import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
-import { LikePostApi, ProfileGetData } from "../api/PostApi";
-import { toast, ToastContainer } from "react-toastify";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { delPostApi, LikePostApi } from "../api/PostApi";
+import { MdDelete } from "react-icons/md";
 
-const PostCard = ({
+const ProfilePostCard = ({
   post,
   likedPosts,
   bookmarkedPosts,
+  deletePostMutation,
   isLoading,
+  profileData,
   LikeMutation,
   onToggleLike,
   onToggleBookmark,
 }) => {
-  const { data: profileData, isLoading: profileLoading } = useQuery({
-    queryKey: ["profile data"],
-    queryFn: ProfileGetData,
-    onSuccess: (data) => [console.log(data?.data?.[0].username)],
-  });
-  console.log(profileData?.data?.[0]);
-
   return (
     <div
       key={post.id}
       className="bg-white/10 backdrop-blur-md lg:w-[500px] rounded-xl shadow-sm flex items-center justify-center border border-gray-400 p-4 sm:p-6 mb-4 hover:shadow-md transition-all duration-200"
     >
-      <ToastContainer />
       <div className="flex items-start w-full space-x-3">
         <div className="flex items-center justify-center flex-col w-full min-w-0">
           <div className="flex gap-3 w-full items-center">
@@ -44,13 +38,9 @@ const PostCard = ({
               <Skeleton circle width={48} height={48} />
             ) : (
               <Image
-                src={
-                  post?.user?.username === profileData?.data?.[0]?.username
-                    ? profileData?.data?.[0]?.image || profile
-                    : post?.user?.image || profile
-                }
-                width={50}
-                height={50}
+                src={profileData?.data?.[0]?.image || profile}
+                width={70}
+                height={70}
                 alt={post?.user}
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover flex-shrink-0"
               />
@@ -82,12 +72,12 @@ const PostCard = ({
             post?.image && (
               <div className="mb-4 rounded-lg overflow-hidden">
                 <Image
-                  src={post?.image}
+                  loading="lazy"
+                  src={post.image}
                   alt="Post content"
-                  layout="responsive" // ✅ smart choice for dynamic sizes
+                  className="rounded-lg object-cover hover:scale-105 transition-transform duration-300"
                   width={700} // Or actual image dimensions
                   height={400}
-                  className="rounded-lg object-cover hover:scale-105 transition-transform duration-300"
                 />
               </div>
             )
@@ -97,7 +87,7 @@ const PostCard = ({
             {isLoading ? (
               <Skeleton width={120} height={32} />
             ) : (
-              <div className="flex items-center space-x-4 sm:space-x-6">
+              <div className="flex items-center justify-between  w-full ">
                 <button
                   onClick={() => {
                     LikeMutation.mutate(post?.id);
@@ -116,6 +106,14 @@ const PostCard = ({
                   <span className="text-lg">{post?.likes}</span>
                   <p>{post?.like_count}</p>
                 </button>
+                <button
+                  className="text-red-500 text-2xl"
+                  onClick={() => {
+                    deletePostMutation.mutate(post.id);
+                  }}
+                >
+                  <MdDelete />
+                </button>
               </div>
             )}
 
@@ -128,4 +126,4 @@ const PostCard = ({
   );
 };
 
-export default PostCard;
+export default ProfilePostCard;

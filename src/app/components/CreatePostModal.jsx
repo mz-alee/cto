@@ -55,6 +55,8 @@ const CreatePostModal = ({ isOpen, setIsOpen, postMutation }) => {
     if (postMutation.isSuccess) {
       setFile('')
       reset();
+      // setIsOpen(false)
+
     }
   }, [postMutation.isSuccess]);
   return (

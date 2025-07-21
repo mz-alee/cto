@@ -5,11 +5,10 @@ import { Home, User, Settings, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { deleteCookie } from "cookies-next";
 import { useQuery } from "@tanstack/react-query";
-import { GetPostApi } from "../api/PostApi";
-import { ProfileGetData } from "../api/profileApi";
 import Skeleton from "react-loading-skeleton";
 import profile from "../../../public/Images/empty.webp";
 import Image from "next/image";
+import { ProfileGetData } from "../api/PostApi";
 const Sidebar = ({
   activeTab,
   setActiveTab,
@@ -35,7 +34,7 @@ const Sidebar = ({
       console.error(error);
     },
   });
-  console.log(data?.data);
+  // console.log(data?.data?.[0]?.image);
 
   return (
     <>
@@ -98,7 +97,9 @@ const Sidebar = ({
         <div className="absolute bottom-0 w-full p-6 ">
           <div className="flex items-center space-x-3 mb-4">
             <Image
-              src={data?.data?.user_details?.image || profile}
+              src={data?.data?.[0]?.image || profile}
+              width={70}
+              height={70}
               alt="Your Avatar"
               className="w-10 h-10 rounded-full object-cover"
             />
@@ -106,8 +107,8 @@ const Sidebar = ({
               <p className="font-medium lg:text-gray-900 truncate">
                 {isLoading ? (
                   <Skeleton count={1} height={15} width={150} />
-                ) : data?.data?.user_details?.username ? (
-                  data?.data?.user_details?.username
+                ) : data?.data?.[0].username ? (
+                  data?.data?.[0].username
                 ) : (
                   "null"
                 )}

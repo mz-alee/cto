@@ -10,10 +10,46 @@ export const createPostApi = (data) => {
     },
   });
 };
+export const LikePostApi = (postId) => {
+  return axiosInstance.post(
+    `/like_post/`,
+    { post: postId },
+    {
+      headers: {
+        Authorization: `Bearer ${getCookie("token")}`,
+      },
+    }
+  );
+};
+
 export const GetPostApi = () => {
+  return axiosInstance.get("/dashboard/", {
+    headers: {
+      Authorization: `Bearer ${getCookie("token")}`,
+    },
+  });
+};
+export const ProfilePostApi = () => {
   return axiosInstance.get("/create_post/", {
     headers: {
       Authorization: `Bearer ${getCookie("token")}`,
     },
+  });
+};
+
+export const delPostApi = (id) => {
+  return axiosInstance.delete(`/create_post/${id}/`, {
+    headers: {
+      Authorization: `Bearer ${getCookie("token")}`,
+    },
+  });
+};
+
+export const ProfileGetData = () => {
+  return axiosInstance.get("/main_profile/", {
+    headers: {
+      Authorization: `Bearer ${getCookie("token")}`,
+    },
+    withCredentials: true,
   });
 };

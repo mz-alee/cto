@@ -3,12 +3,12 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
-import InputField from '../../components/InputField';
+import InputField from "../../components/InputField";
 import { SignupSchema } from "../../schema/SignupSchema";
 import RegisterMutation from "../../services/auth/useRegister";
 import { toast, ToastContainer } from "react-toastify";
 import Loader from "../../components/Loader";
-import { setCookie } from 'cookies-next';
+import { setCookie } from "cookies-next";
 
 const SignupForm = ({ pageNum, setPageNum }) => {
   const router = useRouter();
@@ -25,7 +25,7 @@ const SignupForm = ({ pageNum, setPageNum }) => {
   });
   const signup = RegisterMutation();
   const handleData = (data) => {
-    setCookie("signupemail",data?.email)
+    setCookie("signupemail", data?.email);
     // signup.mutate(data)
     signup.mutate(data, {
       onSuccess: (response) => {
@@ -44,6 +44,8 @@ const SignupForm = ({ pageNum, setPageNum }) => {
         height: "100vh",
         padding: "10px 10px",
         width: "100%",
+        overflowY: "scroll",
+        padding: "10px ",
       }}
       className="bg-hero bg-cover flex  flex-col md:flex-row min-h-screen w-full"
     >
@@ -54,7 +56,7 @@ const SignupForm = ({ pageNum, setPageNum }) => {
           <span className="text-[#aa9322]"> sign up</span> to begin your journey
         </h1>
       </div>
-      <div className="h-full md:w-1/2 flex justify-center items-center">
+      <div className="h-full md:w-1/2 mt-5 flex justify-center items-center">
         <div className="bg-white/20 rounded-2xl min-w-[320px] md:w-[450px] p-2 py-4 min-h-[470px]">
           <div className="w-full ">
             <h1 className="text-center mt-3 italic">
@@ -62,8 +64,8 @@ const SignupForm = ({ pageNum, setPageNum }) => {
             </h1>
           </div>
           <form onSubmit={handleSubmit(handleData)}>
-            <div className="flex flex-col justify-center gap-1 items-center w-full  ">
-              <div>
+            <div className="flex flex-col justify-center gap-1 px-8 items-center w-full  ">
+              <div className="w-full">
                 <p className="text-[12px] capitalize lg:text-[0.8vw]">
                   full name
                 </p>
@@ -77,7 +79,7 @@ const SignupForm = ({ pageNum, setPageNum }) => {
                   <p className="error">{errors.username.message}</p>
                 )}
               </div>
-              <div>
+              <div className="w-full">
                 <p className="text-[12px] capitalize lg:text-[0.8vw]">email</p>
                 <InputField
                   placeholder="email"
@@ -89,7 +91,7 @@ const SignupForm = ({ pageNum, setPageNum }) => {
                   <p className="error">{errors.email.message}</p>
                 )}
               </div>
-              <div>
+              <div className="w-full">
                 <p className="text-[12px] capitalize lg:text-[0.8vw]">
                   phone number
                 </p>
@@ -103,7 +105,7 @@ const SignupForm = ({ pageNum, setPageNum }) => {
                   <p className="error">{errors.phone_number.message}</p>
                 )}
               </div>
-              <div className="w-[300px] ">
+              <div className="w-full">
                 <p className="text-[12px] capitalize lg:text-[0.8vw]">gender</p>
                 <select
                   className="w-full border border-gray-500 text-gray-600 outline-none rounded-sm p-1 text-[12px] lg:text-[0.9vw]"
@@ -119,7 +121,7 @@ const SignupForm = ({ pageNum, setPageNum }) => {
                   <p className="error">{errors.gender.message}</p>
                 )}
               </div>
-              <div>
+              <div className="w-full">
                 <p className="text-[12px] capitalize lg:text-[0.8vw]">
                   date of birth
                 </p>
@@ -133,7 +135,7 @@ const SignupForm = ({ pageNum, setPageNum }) => {
                   <p className="error">{errors.date_of_birth.message}</p>
                 )}
               </div>
-              <div>
+              <div className="w-full">
                 <p className="text-[12px] capitalize lg:text-[0.8vw]">
                   password
                 </p>
@@ -147,7 +149,7 @@ const SignupForm = ({ pageNum, setPageNum }) => {
                   <p className="error">{errors.password.message}</p>
                 )}
               </div>
-              <div>
+              <div className="w-full">
                 <p className="text-[12px] capitalize lg:text-[0.8vw]">
                   confirm password
                 </p>

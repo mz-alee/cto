@@ -12,6 +12,7 @@ export const LoginMutation = () => {
     onSuccess: (data) => {
       console.log(data.data);
       setCookie("token", data?.data?.access_token);
+      setCookie("user_id", data.data.id);
       router.push("/dashboard");
     },
     onError: (err) => {

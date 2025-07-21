@@ -4,6 +4,8 @@ import { Menu } from "lucide-react";
 import Sidebar from "../components/Sidebar";
 import Profile from "./profile/page";
 import HomeScreen from "./Home";
+import { useQuery } from "@tanstack/react-query";
+import { ProfileGetData } from "../api/PostApi";
 
 const SocialDashboard = () => {
   const [activeTab, setActiveTab] = useState("home");
@@ -33,6 +35,12 @@ const SocialDashboard = () => {
       return newSet;
     });
   };
+
+  const { data: profileData, isLoading: profileLoading } = useQuery({
+    queryKey: ["profile data"],
+    queryFn: ProfileGetData,
+  });
+  console.log(profileData);
 
   return (
     <div
@@ -69,7 +77,7 @@ const SocialDashboard = () => {
       />
 
       {/* Main Content */}
-      <div className="lg:ml-64 min-h-screen">
+      <div className="lg:ml-64  min-h-screen">
         {activeTab === "home" && (
           <HomeScreen
             likedPosts={likedPosts}
