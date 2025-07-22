@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Edit3, MapPin, Calendar, Link } from "lucide-react";
+import { Edit3, Upload, Calendar, Link } from "lucide-react";
 import profile from "../../../../public/Images/empty.webp";
 import Image from "next/image";
 import ProfileEditModal from "@/app/components/ProfileModal";
@@ -119,7 +119,7 @@ const Profile = () => {
               onClick={() => setIsPostOpen(true)}
               className="bg-green-400 cursor-pointer text-sm text-white px-4 py-2 rounded hover:bg-green-500 transition"
             >
-              <Edit3 size={16} className="inline-block mr-1" />
+              <Upload size={16} className="inline-block mr-1" />
               post
             </button>
           </div>

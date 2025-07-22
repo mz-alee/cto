@@ -9,6 +9,10 @@ const RegisterMutation = () => {
     onSuccess: () => {
       toast("sign in successfully");
     },
+    onError: (err) => {
+      console.log("sign up api error", err);
+      toast.error(err?.response?.data?.message);
+    },
   });
   <>
     <ToastContainer />

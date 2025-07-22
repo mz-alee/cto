@@ -16,8 +16,8 @@ export const LoginMutation = () => {
       router.push("/dashboard");
     },
     onError: (err) => {
-      console.log("login api error", err?.response?.data?.error);
-      toast.error(err?.response?.data?.error);
+      console.log("login api error", err);
+      toast.error(err?.response?.data?.message);
     },
   });
   <ToastContainer />;

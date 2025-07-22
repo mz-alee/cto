@@ -2,19 +2,23 @@
 import React from "react";
 import InputField from "../components/InputField";
 import { useRouter } from "next/navigation";
+import Loader from "../components/Loader";
 
 const ForgetEmailSection = ({
   register,
   setPageNum,
+  onSubmit,
+  forgetMutation,
   pageNum,
   handleSubmit,
   errors,
 }) => {
   const router = useRouter();
 
-  const handleData = (data) => {
-    console.log("react hook form data");
-  };
+  // const handleData = (data) => {
+  //   setPageNum(pageNum + 1);
+  //   console.log("react hook form data");
+  // };
   return (
     <div className="  flex items-center flex-col md:flex-row  h-screen w-full">
       <div className="h-[300px] lg:[300px] md:h-full md:w-1/2  flex flex-col justify-center items-center">
@@ -30,12 +34,12 @@ const ForgetEmailSection = ({
               forget <span className="text-[#aa9322]">password</span>
             </h1>
           </div>
-          <div className="flex flex-col justify-center h-[150px]     gap-4 items-center w-full  ">
+          <div className="flex flex-col justify-center h-[150px]    gap-4 items-center w-full  ">
             <form
-              className="flex flex-col gap-3"
-              onSubmit={handleSubmit(handleData)}
+              className="flex flex-col gap-3 w-full px-6"
+              onSubmit={handleSubmit(onSubmit)}
             >
-              <div>
+              <div className="w-full ">
                 <p className="text-[12px] capitalize lg:text-[0.8vw]">email</p>
                 <InputField
                   placeholder="email"
@@ -69,7 +73,7 @@ const ForgetEmailSection = ({
                   }}
                   className="mt-1 bg-[#c0a521] text-white hover:bg-transparent hover:text-[#c0a521] hover:border hover:border-[#c0a521] rounded-tl-4xl rounded-br-4xl cursor-pointer text-[12px] px-8 py-1 rounded-2xl shadow-lg transition-all duration-300"
                 >
-                  forget password
+                  {forgetMutation.isPending ? <Loader /> : "send"}
                 </button>
               </div>
             </form>

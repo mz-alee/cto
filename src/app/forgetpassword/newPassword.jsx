@@ -1,18 +1,68 @@
+"use client";
 import React from "react";
 import InputField from "../components/InputField";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { resetUpdatePassword } from "../api/auth/forgetPassword";
+import { toast, ToastContainer } from "react-toastify";
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useMutation } from '@tanstack/react-query';
+const confirmPasswordSchema = yup.object({
+  password: yup
+    .string()
+    .required("Password is a Required Field")
+    .matches(
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).*$/,
+      "Password must contain at least one uppercase letter, one number, and one special character"
+    ),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .required("Confirm Password is a Required Field"),
+});
 
 const NewPassword = ({
-  register,
+  // register,
   setPageNum,
   pageNum,
-  handleSubmit,
-  errors,
+  // handleSubmit,
+  // errors,
 }) => {
-  const handleData = (data) => {
-    console.log("react hook form data");
+  const code = localStorage.getItem("token");
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(confirmPasswordSchema),
+    defaultValues: {
+      token: code,
+      password: "",
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: (data) => resetUpdatePassword(data),
+    onSuccess: (data) => {
+      router.push("/login");
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error.response.data.password);
+      toast(error.response.data.password[0]);
+    },
+  });
+
+  const onSubmit = (data) => {
+    updateMutation.mutate(data);
+    console.log(data);
   };
+
   return (
     <div className="bg-hero bg-cover  flex items-center flex-col md:flex-row min-h-screen w-full">
+      <ToastContainer />
       <div className="h-[300px] md:h-full md:w-1/2  flex flex-col justify-center items-center">
         <h1 className="text-[20px] w-[280px] lg:text-4xl text-center md:w-[400px] font-[400] italic text-white/50 drop-shadow-sm">
           reset it to continue your journey with Conservation Through
@@ -29,10 +79,10 @@ const NewPassword = ({
           </div>
           <div className="flex flex-col justify-center min-h-[150px]  py-2   gap-4 items-center w-full  ">
             <form
-              className="flex flex-col gap-3"
-              onSubmit={handleSubmit(handleData)}
+              className="flex flex-col gap-3 w-full px-6"
+              onSubmit={handleSubmit(onSubmit)}
             >
-              <div>
+              <div className="w-full">
                 <p className="text-[12px] capitalize lg:text-[0.8vw]">
                   password
                 </p>

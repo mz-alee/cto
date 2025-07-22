@@ -9,7 +9,7 @@ import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const OTPSection = ({ setPageNum, pageNum }) => {
   const {
@@ -40,8 +40,20 @@ const OTPSection = ({ setPageNum, pageNum }) => {
   const [timer, setTimer] = useState(120); // 2 minutes in seconds
   const verifyresendOtp = VerifyResendOtp();
   const resendOtp = () => {
-    verifyresendOtp.mutate({ email: getCookie("signupemail") });
+    verifyresendOtp.mutate(
+      { email: getCookie("signupemail") },
+      {
+        onSuccess: () => {
+          setTimer(120); // ⏱️ Reset timer to 120 seconds
+          toast.success("OTP resent successfully");
+        },
+        onError: (err) => {
+          toast.error(err?.response?.data?.message || "Failed to resend OTP");
+        },
+      }
+    );
   };
+
   useEffect(() => {
     if (timer <= 0) return;
 
@@ -63,6 +75,7 @@ const OTPSection = ({ setPageNum, pageNum }) => {
       }}
       className="bg-hero bg-cover  flex items-center flex-col md:flex-row min-h-screen w-full"
     >
+      <ToastContainer />
       <div className="h-[300px] md:h-full md:w-1/2  flex flex-col justify-center items-center">
         <h1 className="text-[20px] w-[280px] lg:text-4xl text-center md:w-[400px] font-[400] italic text-white/50 drop-shadow-sm">
           reset it to continue your journey with Conservation Through
@@ -93,10 +106,11 @@ const OTPSection = ({ setPageNum, pageNum }) => {
                 </p>
                 <button
                   type="button"
+                  disabled={!timer == 0}
                   onClick={resendOtp}
-                  className="text-[12px] cursor-pointer w-full text-white lg:text-[0.9vw] bg-[#c0a521] rounded-2xl py-1 text-center"
+                  className={`text-[12px] cursor-pointer w-full text-white lg:text-[0.9vw] ${!timer == 0 && "bg-gray-800"} bg-[#c0a521] rounded-2xl py-1 text-center`}
                 >
-                  resend otp
+                  {verifyresendOtp.isPending ? <Loader /> : "resend otp"}
                 </button>
               </div>
               <div>
@@ -108,6 +122,9 @@ const OTPSection = ({ setPageNum, pageNum }) => {
             <div className="flex items-center gap-1">
               <p className="text-[10px]">if you want to change the details</p>
               <button
+                onClick={() => {
+                  setPageNum(pageNum - 1);
+                }}
                 type="button"
                 className="text-blue-800 cursor-pointer text-[12px] lg:text-[0.9vw]"
               >
