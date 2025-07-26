@@ -1,0 +1,17 @@
+{
+  "locations": [
+    "Erean", "Brunad", "Bylyn", "Docia", "Marend", "Pryn",
+    "Zord", "Yaean", "Frestin", "Stonyam", "Ryall", "Ruril",
+    "Keivia", "Tallan", "Adohad", "Obelyn", "Holmer", "Vertwall"
+  ],
+  "bird_species": [
+    "Wood Pigeon",
+    "House Sparrow",
+    "Starling",
+    "Blue Tit",
+    "Blackbird",
+    "Robin",
+    "Goldfinch",
+    "Magpie"
+  ]
+}

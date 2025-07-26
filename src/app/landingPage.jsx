@@ -17,7 +17,7 @@ export default function LandingPage() {
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
-
+  console.log("env",process.env.NEXT_API_KEY);
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#847115] via-[#a68c2c] to-[#d2b34d] font-sans text-gray-800">
       {/* Hero Section */}

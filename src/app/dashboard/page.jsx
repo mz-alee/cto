@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu } from "lucide-react";
 import Sidebar from "../components/Sidebar";
 import Profile from "./profile/page";
@@ -20,10 +20,45 @@ const SocialDashboard = () => {
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
   };
 
+  // Load liked posts from localStorage on component mount
+  useEffect(() => {
+    const savedLikedPosts = localStorage.getItem("likedPosts");
+    const savedBookmarkedPosts = localStorage.getItem("bookmarkedPosts");
+
+    if (savedLikedPosts) {
+      try {
+        const likedArray = JSON.parse(savedLikedPosts);
+        setLikedPosts(new Set(likedArray));
+      } catch (error) {
+        console.error("Error parsing liked posts from localStorage:", error);
+      }
+    }
+
+    if (savedBookmarkedPosts) {
+      try {
+        const bookmarkedArray = JSON.parse(savedBookmarkedPosts);
+        setBookmarkedPosts(new Set(bookmarkedArray));
+      } catch (error) {
+        console.error(
+          "Error parsing bookmarked posts from localStorage:",
+          error
+        );
+      }
+    }
+  }, []);
+
   const toggleLike = (postId) => {
     setLikedPosts((prev) => {
       const newSet = new Set(prev);
-      newSet.has(postId) ? newSet.delete(postId) : newSet.add(postId);
+      if (newSet.has(postId)) {
+        newSet.delete(postId);
+      } else {
+        newSet.add(postId);
+      }
+
+      // Save to localStorage
+      localStorage.setItem("likedPosts", JSON.stringify(Array.from(newSet)));
+
       return newSet;
     });
   };
@@ -31,7 +66,18 @@ const SocialDashboard = () => {
   const toggleBookmark = (postId) => {
     setBookmarkedPosts((prev) => {
       const newSet = new Set(prev);
-      newSet.has(postId) ? newSet.delete(postId) : newSet.add(postId);
+      if (newSet.has(postId)) {
+        newSet.delete(postId);
+      } else {
+        newSet.add(postId);
+      }
+
+      // Save to localStorage
+      localStorage.setItem(
+        "bookmarkedPosts",
+        JSON.stringify(Array.from(newSet))
+      );
+
       return newSet;
     });
   };
@@ -40,7 +86,6 @@ const SocialDashboard = () => {
     queryKey: ["profile data"],
     queryFn: ProfileGetData,
   });
-  console.log(profileData);
 
   return (
     <div
@@ -49,14 +94,13 @@ const SocialDashboard = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: "100vh",
-        // padding: "10px 10px",
         width: "100%",
         position: "fixed",
       }}
       className=""
     >
       {/* Mobile Header */}
-      <div className="lg:hidden  shadow-sm  p-4 sticky top-0 z-30">
+      <div className="lg:hidden shadow-sm p-4 sticky top-0 z-30">
         <div className="flex items-center justify-between">
           <button
             onClick={() => setSidebarOpen(true)}
@@ -77,7 +121,7 @@ const SocialDashboard = () => {
       />
 
       {/* Main Content */}
-      <div className="lg:ml-64  min-h-screen">
+      <div className="lg:ml-64 min-h-screen">
         {activeTab === "home" && (
           <HomeScreen
             likedPosts={likedPosts}
