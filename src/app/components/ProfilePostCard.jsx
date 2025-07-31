@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
+import { FaRegEdit } from "react-icons/fa";
 import {
   Heart,
   MessageCircle,
@@ -20,6 +21,9 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { delPostApi, LikePostApi } from "../api/PostApi";
 import { MdDelete } from "react-icons/md";
+import CreatePostModal from "./CreatePostModal";
+import PostUpdateModal from "./PostUpdateModal";
+import { setCookie } from "cookies-next";
 
 const ProfilePostCard = ({
   post,
@@ -32,6 +36,8 @@ const ProfilePostCard = ({
   onToggleLike,
   onToggleBookmark,
 }) => {
+  const [updatedOpen,setUpdatedOpen]=useState(false)
+  
   // Format date helper
   const formatDate = (dateString) => {
     if (!dateString) return '';
@@ -50,7 +56,7 @@ const ProfilePostCard = ({
     if (!duration) return '';
     return `${duration} min`;
   };
-
+  setCookie('postId',post)
   return (
     <div className="bg-white/10 backdrop-blur-md lg:w-[500px] rounded-2xl shadow-lg border border-white/20 p-4 sm:p-6 mb-6 hover:shadow-xl hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
       <div className="flex flex-col w-full space-y-4">
@@ -214,16 +220,14 @@ const ProfilePostCard = ({
                   LikeMutation.mutate(post?.id);
                   onToggleLike(post?.id);
                 }}
-                className={`flex items-center space-x-2 px-3 py-2 rounded-full transition-all duration-200 hover:bg-red-500/20 ${
-                  likedPosts?.has(post?.id) 
-                    ? "text-red-400 bg-red-500/10" 
+                className={`flex items-center space-x-2 px-3 py-2 rounded-full transition-all duration-200 hover:bg-red-500/20 ${likedPosts?.has(post?.id)
+                    ? "text-red-400 bg-red-500/10"
                     : "text-white/70 hover:text-red-400"
-                }`}
+                  }`}
               >
                 <Heart
-                  className={`w-4 h-4 sm:w-5 sm:h-5 ${
-                    likedPosts?.has(post?.id) ? "fill-current" : ""
-                  }`}
+                  className={`w-4 h-4 sm:w-5 sm:h-5 ${likedPosts?.has(post?.id) ? "fill-current" : ""
+                    }`}
                 />
                 <span className="text-sm font-medium">
                   {post?.like_count || post?.likes || 0}
@@ -233,14 +237,14 @@ const ProfilePostCard = ({
               {/* Action Buttons */}
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => onToggleBookmark(post?.id)}
-                  className={`p-2 rounded-full transition-all duration-200 hover:bg-blue-500/20 ${
-                    bookmarkedPosts?.has(post?.id)
+                  onClick={() => setUpdatedOpen(true)}
+                  className={`p-2 rounded-full transition-all duration-200 hover:bg-blue-500/20 ${bookmarkedPosts?.has(post?.id)
                       ? "text-blue-400 bg-blue-500/10"
                       : "text-white/70 hover:text-blue-400"
-                  }`}
+                    }`}
                 >
-                  <Bookmark className={`w-4 h-4 ${bookmarkedPosts?.has(post?.id) ? "fill-current" : ""}`} />
+
+                  <FaRegEdit />
                 </button>
 
                 <button
@@ -257,6 +261,9 @@ const ProfilePostCard = ({
             </div>
           )}
         </div>
+      </div>
+      <div id="root">
+        <PostUpdateModal postData={post} isOpen={updatedOpen} setIsOpen={setUpdatedOpen}/>
       </div>
     </div>
   );

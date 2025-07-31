@@ -126,13 +126,13 @@ const Profile = () => {
           {/* Meta Info */}
           <div className="mt-4 flex flex-wrap text-sm text-gray-600 gap-4"></div>
         </div>
-        <div className="p-4 bg-white/20   flex flex-col gap-5 rounded-2xl w-full lg:w-[60vw] mt-5 h-[85vh] lg:h-[70vh]  sm:p-6">
+        <div className="p-4 bg-white/20   flex flex-col gap-5 rounded-2xl py-10 w-full lg:w-[60vw] mt-5 h-[70vh] lg:min-h-[70vh]  sm:p-10">
           <h1
             className={`${font.className} w-fit italic capitalize text-center text-[15px] lg:text-[1.5vw] text-gray-800 border-b border-gray-500 pb-3`}
           >
             your post
           </h1>
-          <div className="w-full flex overflow-y-scroll  justify-center  h-[80vh] lg:h-[60vh]">
+          <div className="w-full flex overflow-y-scroll  justify-center py-3  h-[100vh] lg:h-[60vh]">
             {isLoading ? (
               <div className="w-full h-full flex justify-center items-center">
                 <Loader color="black" />
@@ -142,7 +142,7 @@ const Profile = () => {
                 <p className="text-gray-500 text-[13px]">no data</p>
               </div>
             ) : (
-              <div className="max-w-2xl  mx-auto">
+              <div className="max-w-2xl  mx-auto mb-5">
                 {mainData?.data?.map((post) => (
                   <ProfilePostCard
                     isLoading={isLoading}
@@ -150,23 +150,14 @@ const Profile = () => {
                     key={post.id}
                     post={post}
                     deletePostMutation={deletePostMutation}
-                    // likedPosts={likedPosts}
-                    // bookmarkedPosts={bookmarkedPosts}
-                    // onToggleLike={onToggleLike}
-                    // onToggleBookmark={onToggleBookmark}
+                
                   />
                 ))}
               </div>
             )}
           </div>
         </div>
-        {/* <div className="mt-10 text-center  text-sm text-gray-500">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-100 rounded-full mb-2">
-            <Edit3 size={20} className="text-gray-400" />
-          </div>
-          <p className="font-medium text-gray-700">No posts yet</p>
-          <p className="text-xs">Your posts will appear here once published.</p>
-        </div> */}
+      
       </div>
       <div id="root">
         <ProfileEditModal

@@ -1,15 +1,23 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Space } from "antd";
 
-const DropdownList = ({ data, onSelect }) => {
-  const [selected, setSelected] = useState("Select location");
+const DropdownList = ({ data, onSelect, value = "" }) => {
+  const [selected, setSelected] = useState(value || "Select");
+
+  useEffect(() => {
+    if (value) {
+      setSelected(value);
+    }
+  }, [value]);
 
   const handleMenuClick = ({ key }) => {
     const selectedItem = data.find((item) => item.key === key);
-    setSelected(selectedItem?.label || "Select location");
-    if (onSelect) onSelect(selectedItem?.label);
+    const label = selectedItem?.label || "Select";
+    setSelected(label);
+    if (onSelect) onSelect(label);
   };
 
   return (
