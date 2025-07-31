@@ -26,9 +26,9 @@ const profileSchema = yup.object().shape({
 
 const PostUpdateModal = ({ isOpen, setIsOpen, postData }) => {
   const [filePreview, setFilePreview] = useState(null);
-  const [fileBlob, setFileBlob] = useState(null);
-  const [data, setData] = useState({ locations: [], bird_species: [] });
   const queryClient = useQueryClient();
+
+  const [data, setData] = useState({ locations: [], bird_species: [] });
 
   useEffect(() => {
     fetch("/DropDownData.json")
@@ -52,6 +52,7 @@ const PostUpdateModal = ({ isOpen, setIsOpen, postData }) => {
     setValue,
     register,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(profileSchema),
@@ -66,7 +67,7 @@ const PostUpdateModal = ({ isOpen, setIsOpen, postData }) => {
     },
   });
 
-  // Load postData into form + convert image URL to File
+  // Set post data
   useEffect(() => {
     if (postData) {
       setValue("about", postData.about || "");
@@ -83,14 +84,7 @@ const PostUpdateModal = ({ isOpen, setIsOpen, postData }) => {
 
       if (postData.image) {
         setFilePreview(postData.image);
-        // Convert image URL to File object
-        fetch(postData.image)
-          .then((res) => res.blob())
-          .then((blob) => {
-            const file = new File([blob], "post-image.jpg", { type: blob.type });
-            setValue("image", file);
-            setFileBlob(file);
-          });
+        setValue("image", postData.image); // Initially keep the URL
       }
     }
   }, [postData]);
@@ -100,7 +94,6 @@ const PostUpdateModal = ({ isOpen, setIsOpen, postData }) => {
     if (file) {
       setFilePreview(URL.createObjectURL(file));
       setValue("image", file);
-      setFileBlob(file);
     }
   };
 
@@ -115,9 +108,11 @@ const PostUpdateModal = ({ isOpen, setIsOpen, postData }) => {
     },
   });
 
-  const onSubmit = (formData) => {
+  const onSubmit = async (formData) => {
     const { date, time, image, ...rest } = formData;
-    const datetime = moment.utc(`${date} ${time}`, "YYYY-MM-DD HH:mm").toISOString();
+    const datetime = moment
+      .utc(`${date} ${time}`, "YYYY-MM-DD HH:mm")
+      .toISOString();
 
     const payload = {
       ...rest,
@@ -126,11 +121,22 @@ const PostUpdateModal = ({ isOpen, setIsOpen, postData }) => {
 
     const form = new FormData();
     for (let key in payload) {
-      form.append(key, payload[key]);
+      form.append(key, payload[key] || ""); // fallback to empty string
     }
 
-    if (fileBlob && typeof fileBlob !== "string") {
-      form.append("image", fileBlob);
+    // Add image as File
+    if (image && typeof image === "object") {
+      form.append("image", image);
+    } else if (filePreview && typeof image === "string") {
+      try {
+        const res = await fetch(filePreview);
+        const blob = await res.blob();
+        const fileName = filePreview.split("/").pop().split("?")[0];
+        const file = new File([blob], fileName, { type: blob.type });
+        form.append("image", file);
+      } catch (err) {
+        console.error("Image conversion error:", err);
+      }
     }
 
     mutation.mutate({ id: postData.id, data: form });
@@ -199,33 +205,31 @@ const PostUpdateModal = ({ isOpen, setIsOpen, postData }) => {
           />
         </div>
 
-        {/* Location Dropdown */}
+        {/* Dropdowns and Inputs */}
         <div className="flex flex-col gap-1">
           <label className="text-sm capitalize">Location</label>
           <div className="border p-1 rounded border-gray-700">
             <DropdownList
               data={locationItems}
-              value={postData?.location}
+              value={watch("location")}
               onSelect={(val) => setValue("location", val)}
             />
           </div>
           {errors.location && <p className="text-red-500 text-xs">{errors.location.message}</p>}
         </div>
 
-        {/* Bird Species Dropdown */}
         <div className="flex flex-col gap-1">
           <label className="text-sm capitalize">Bird Type</label>
           <div className="border p-1 rounded border-gray-700">
             <DropdownList
               data={birdSpeciesItems}
-              value={postData?.bird_species}
+              value={watch("bird_species")}
               onSelect={(val) => setValue("bird_species", val)}
             />
           </div>
           {errors.bird_species && <p className="text-red-500 text-xs">{errors.bird_species.message}</p>}
         </div>
 
-        {/* Date, Time, Duration, About */}
         <InputField name="date" type="date" register={register} placeholder="Date" />
         {errors.date && <p className="text-red-500 text-xs">{errors.date.message}</p>}
 
