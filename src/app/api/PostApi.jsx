@@ -37,6 +37,7 @@
       headers: {
         Authorization: `Bearer ${getCookie("token")}`,
       },
+      withCredentials:true,
     });
   };
   export const ProfilePostApi = () => {
@@ -44,6 +45,7 @@
       headers: {
         Authorization: `Bearer ${getCookie("token")}`,
       },
+      withCredentials:true, 
     });
   };
 
